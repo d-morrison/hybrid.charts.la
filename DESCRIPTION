@@ -1,6 +1,6 @@
 Package: hybrid.charts.la
-Title: An Amazing Shiny App
-Version: 0.0.0.9000
+Title: Hybrid charts for Los Angeles CSAs
+Version: 0.0.0.9001
 Authors@R: 
     person(given = "firstname",
            family = "lastname",
@@ -10,6 +10,7 @@ Description: What the package does (one paragraph).
 License: What license is it under?
 Imports: 
     config (>= 0.3.1),
+    ggplot2,
     golem (>= 0.3.1),
     shiny (>= 1.6.0)
 Encoding: UTF-8
@@ -21,3 +22,4 @@ Suggests:
 VignetteBuilder: knitr
 URL: https://github.com/dmorrison01/hybrid.charts.la
 BugReports: https://github.com/dmorrison01/hybrid.charts.la/issues
+

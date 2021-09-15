@@ -4,7 +4,12 @@
 \alias{graph_function}
 \title{Title}
 \usage{
-graph_function(data = df_var)
+graph_function(
+  data,
+  adjust = FALSE,
+  type = if_else(adjust, "Adjusted", "Raw"),
+  var_name = "Confirmed Cases"
+)
 }
 \arguments{
 \item{data}{}

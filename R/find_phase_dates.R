@@ -383,7 +383,7 @@ find_phase_dates <- function(
     if (adjust) {
       data$New_var[!is.finite(data$New_var) & is.na(data$New_var_Dump)] <- 0
       
-      data <- find_phase_dates(data = data[c('GEO', 'NAME', 'datex', 'New_var', 'New_var_max', 'New_var_Dump')],
+      data <- find_phase_dates(data = data[c('datex', 'New_var', 'New_var_max', 'New_var_Dump')],
                                adjust = FALSE,
                                ghost = FALSE)
       

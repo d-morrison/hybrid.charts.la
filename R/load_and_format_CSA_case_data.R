@@ -3,34 +3,39 @@
 #' @return
 #' @export
 #'
+#' @importFrom dplyr filter mutate if_else right_join group_by arrange lag
+#' @importFrom readr read_csv cols col_character
+#' @importFrom stringr str_detect
+#' @importFrom tidyr fill
+#' @importFrom magrittr %>%  %<>%
 load_and_format_CSA_case_data = function()
 {
   data_path4 = 
     "https://raw.githubusercontent.com/datadesk/california-coronavirus-data/master/latimes-place-totals.csv"
   
-  data4a = read_csv(data_path4, col_types = cols(note = col_character())) %>% 
-    filter(county == "Los Angeles")
+  data4a = readr::read_csv(data_path4, col_types = readr::cols(note = readr::col_character())) %>% 
+    dplyr::filter(county == "Los Angeles")
   
   # fix inconsistent naming 
-  data4a %<>% mutate(
+  data4a %<>% dplyr::mutate(
     
-    name = if_else(
+    name = dplyr::if_else(
       name == "Silver Lake",
       "Silverlake",
       name
     ),
-    name = if_else(
+    name = dplyr::if_else(
       name == "Athens",
       "Athens-Westmont",
       name
     ),
-    name = if_else(
-      str_detect(name, "Pasadena"),
+    name = dplyr::if_else(
+      stringr::str_detect(name, "Pasadena"),
       "Pasadena",
       name
     ),
-    name = if_else(
-      str_detect(name, "Long Beach"),
+    name = dplyr::if_else(
+      stringr::str_detect(name, "Long Beach"),
       "Long Beach",
       name
     )
@@ -49,22 +54,22 @@ load_and_format_CSA_case_data = function()
   
   # fills in any missing date
   data4a %<>%
-    right_join(
+    dplyr::right_join(
       dates_and_places,
       by = c("date", "name")
     ) %>%
-    group_by(name) %>%
-    arrange(date) %>%
-    fill(
+    dplyr::group_by(name) %>%
+    dplyr::arrange(date) %>%
+    tidyr::fill(
       .direction = "downup",
       confirmed_cases, population, county, fips) %>%
-    mutate(
+    dplyr::mutate(
       "new_cases" = 
-        confirmed_cases - lag(confirmed_cases, 1, default = NA),
+        confirmed_cases - dplyr::lag(confirmed_cases, 1, default = NA),
       "pct_infected_cumulative" = 
         100*(confirmed_cases/population),
       "new_cases_in_last_14_days" = 
-        confirmed_cases - lag(confirmed_cases, 14),
+        confirmed_cases - dplyr::lag(confirmed_cases, 14),
       "pct_new_cases_in_last_14_days" = 
         new_cases_in_last_14_days/population * 100
     )

@@ -14,7 +14,7 @@ graph_function <- function(
   type = if_else(adjust, "Adjusted", "Raw"),
   var_name = "Confirmed Cases")
 {
-  g <- ggplot(
+  g <- ggplot2::ggplot(
     data,
     aes(
       x = datex,

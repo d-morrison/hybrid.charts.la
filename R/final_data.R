@@ -11,9 +11,9 @@
 
 final_data <- function(data_frame){
   data_frame %>% 
-    arrange(date) %>% 
-    filter(!is.na(var_cum)) %>% 
-    mutate(New_var = force_monotonicity(c(var_cum[1],diff(var_cum))),
+    dplyr::arrange(date) %>% 
+    dplyr::filter(!is.na(var_cum)) %>% 
+    dplyr::mutate(New_var = force_monotonicity(c(var_cum[1],diff(var_cum))),
            New_var_max = max(New_var, na.rm = TRUE)) %>%
-    rename(datex = date)
+    dplyr::rename(datex = date)
 }
